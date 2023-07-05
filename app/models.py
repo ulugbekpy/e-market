@@ -28,6 +28,9 @@ class Category(MPTTModel):
 
     def __str__(self) -> str:
         return self.name
+    
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
 class Seller(models.Model):

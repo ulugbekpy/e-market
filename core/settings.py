@@ -37,6 +37,8 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'app',
     'rest_framework',
+    'django_filters',
+    'mptt',
 ]
 
 MIDDLEWARE = [
