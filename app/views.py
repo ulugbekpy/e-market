@@ -3,8 +3,8 @@ from rest_framework.filters import SearchFilter,OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import Product
-from .serializers import ProductSerializer
+from .models import (Product,User)
+from .serializers import (ProductSerializer,UserSerializer)
 from .pagination import DefaultPagination
 from .filters import ProductFilter
 
@@ -18,3 +18,8 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
     ordering_fields = ['category', 'price', 'shop']
+
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
