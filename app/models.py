@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.exceptions import ValidationError
 
+from uuid import uuid4
 from .manager import UserManager
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -84,6 +85,7 @@ class Customer(models.Model):
 
 
 class Cart(models.Model):
+    id = models.UUIDField(primary_key=True,default=uuid4)
     ip_address = models.CharField(max_length=50, null=True, blank=True)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, null=True, blank=True)
