@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import (User, Customer, Seller, Shop,
+from .models import (User, Customer, Seller,
                      Category, Product)
 
 
@@ -149,3 +149,9 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         exclude = []
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['name']
