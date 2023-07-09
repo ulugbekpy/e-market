@@ -87,6 +87,7 @@ class Cart(models.Model):
     ip_address = models.CharField(max_length=50, null=True, blank=True)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def full_clean(self, *args, **kwargs):
         if [self.ip_address, self.customer].count(None) != 2:
@@ -96,12 +97,12 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE,related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
     class Meta:
-        unique_together = ('cart', 'product')
+        unique_together = [['cart', 'product']]
 
 
 class Order(models.Model):
