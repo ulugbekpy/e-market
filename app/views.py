@@ -29,5 +29,5 @@ class CategoryViewSet(ModelViewSet):
 
 
 class CartViewSet(CreateModelMixin,ListModelMixin,GenericViewSet):
-    queryset = Cart.objects.all()
+    queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializer
