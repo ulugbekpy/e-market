@@ -91,11 +91,8 @@ class Cart(models.Model):
         Customer, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def full_clean(self, *args, **kwargs):
-        if [self.ip_address, self.customer].count(None) != 2:
-            raise ValidationError(
-                "Either `ip_address` or `customer` field should be provided")
-        return super().full_clean(*args, **kwargs)
+    def __str__(self):
+        return self.ip_address
 
 
 class CartItem(models.Model):
@@ -105,6 +102,9 @@ class CartItem(models.Model):
 
     class Meta:
         unique_together = [['cart', 'product']]
+
+    def __str__(self) -> str:
+        return self.product.title
 
 
 class Order(models.Model):

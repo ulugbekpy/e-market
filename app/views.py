@@ -1,5 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework.mixins import CreateModelMixin,ListModelMixin
+from rest_framework.viewsets import GenericViewSet
 
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -26,6 +28,6 @@ class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
 
 
-class CartViewSet(ModelViewSet):
+class CartViewSet(CreateModelMixin,ListModelMixin,GenericViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (User, Customer, Seller,
-                     Category, Product,Cart)
+                     Category, Product,Cart,CartItem)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -157,7 +157,18 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['name']
 
 
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    
+    class Meta:
+        model = CartItem
+        fields = ['id','product','quantity']
+
+
 class CartSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
+    items = CartItemSerializer(many=True)
+
     class Meta:
         model = Cart
-        fields = ['id']
+        fields = ['id','ip_address','items']
