@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User,Category,Product,Shop,Seller,Cart,Customer,CartItem
+from .models import Category,Product,Shop,Seller
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
