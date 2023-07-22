@@ -85,7 +85,7 @@ class Customer(models.Model):
 
 
 class Cart(models.Model):
-    id = models.UUIDField(primary_key=True,default=uuid4)
+    cart_id = models.UUIDField(primary_key=True,default=uuid4)
     ip_address = models.CharField(max_length=50, null=True, blank=True)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, null=True, blank=True)
