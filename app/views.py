@@ -1,13 +1,19 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter,OrderingFilter
-from rest_framework.mixins import CreateModelMixin,ListModelMixin,RetrieveModelMixin,DestroyModelMixin
+from rest_framework.mixins import (CreateModelMixin,
+                                   ListModelMixin,
+                                   RetrieveModelMixin,
+                                   DestroyModelMixin)
 from rest_framework.viewsets import GenericViewSet
 
 
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (Product,Category,Cart)
-from .serializers import (ProductSerializer,CategorySerializer,CartSerializer)
+from .serializers import (ProductSerializer,
+                          CategorySerializer,
+                          CartSerializer,
+                          CartItemSerializer)
 from .pagination import DefaultPagination
 from .filters import ProductFilter
 
@@ -35,3 +41,12 @@ class CartViewSet(CreateModelMixin,
                   GenericViewSet):
     queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializer
+
+
+class CartItemViewSet(ModelViewSet):
+    serializer_class = CartItemSerializer
+
+    def get_queryset(self):
+        return Cart.objects\
+        .filter(cart_id=self.kwargs['cart_pk'])\
+        .select_related('product')
