@@ -1,12 +1,11 @@
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested.routers import NestedDefaultRouter
 
-from .views import (ProductViewSet,CategoryViewSet,CartViewSet,CartItemViewSet)
+from .views import (ProductViewSet,CartViewSet,CartItemViewSet)
 
 router = DefaultRouter()
 
 router.register('products',ProductViewSet)
-router.register('categories',CategoryViewSet)
 router.register('carts',CartViewSet,basename='cart')
 
 carts_router = NestedDefaultRouter(router,'carts',lookup='cart')
