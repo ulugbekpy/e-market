@@ -9,11 +9,9 @@ from rest_framework.viewsets import GenericViewSet
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import (Product,Category,Cart)
-from .serializers import (ProductSerializer,
-                          CategorySerializer,
-                          CartSerializer,
-                          CartItemSerializer)
+from .models import (Product,Cart)
+from serializers.product import ProductSerializer
+from serializers.cart import CartSerializer,CartItemSerializer
 from .pagination import DefaultPagination
 from .filters import ProductFilter
 
@@ -28,10 +26,6 @@ class ProductViewSet(ModelViewSet):
     search_fields = ['title', 'description']
     ordering_fields = ['category', 'price', 'shop']
 
-
-class CategoryViewSet(ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
 
 
 class CartViewSet(CreateModelMixin,
