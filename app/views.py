@@ -5,13 +5,14 @@ from rest_framework.mixins import (CreateModelMixin,
                                    RetrieveModelMixin,
                                    DestroyModelMixin)
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.views import APIView
 
 
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (Product,Cart)
-from serializers.product import ProductSerializer
-from serializers.cart import CartSerializer,CartItemSerializer
+from .serializers.product import ProductSerializer
+from .serializers.cart import CartSerializer,CartItemSerializer
 from .pagination import DefaultPagination
 from .filters import ProductFilter
 
@@ -42,3 +43,7 @@ class CartItemViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Cart.objects.filter(cart_id=self.kwargs['cart_pk'])
+
+
+class CategoryListAPI(APIView):
+    pass
