@@ -45,5 +45,5 @@ class CartItemViewSet(ModelViewSet):
         return Cart.objects.filter(cart_id=self.kwargs['cart_pk'])
 
 
-class CategoryListAPI(APIView):
+class SelectedAPI(APIView):
     pass
