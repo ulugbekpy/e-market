@@ -6,11 +6,16 @@ from rest_framework.mixins import (CreateModelMixin,
                                    DestroyModelMixin)
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.views import APIView
-
+from rest_framework import serializers 
+from rest_framework.response import Response
+from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import (Product,Cart)
+from decimal import Decimal
+from typing import List,Dict,Any
+
+from .models import Product,Cart
 from .serializers.product import ProductSerializer
 from .serializers.cart import CartSerializer,CartItemSerializer
 from .pagination import DefaultPagination
@@ -46,4 +51,41 @@ class CartItemViewSet(ModelViewSet):
 
 
 class SelectedAPI(APIView):
-    pass
+    class OutputSerializer(serializers.Serializer):
+        title = serializers.CharField()
+        description = serializers.CharField()
+        price = serializers.DecimalField(decimal_places=2,max_digits=10)
+        amount = serializers.IntegerField()
+
+    def product_list(self,cat_id,
+                     title:str,
+                     description:str,
+                     price:Decimal,
+                     amount:int) -> List[Dict[str, Any]]:
+        
+        result = []
+
+        products = Product.objects.filter(category=cat_id).all()
+
+        for pro in products:
+            pro_info = {
+                "title":pro.title,
+                "description":pro.description,
+                "price":pro.price,
+                "amount":pro.amount
+            }
+            result.append(pro_info)
+
+        return result
+
+
+    def get(self,request,pk):
+        serializer = self.OutputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        products = self.product_list(cat_id=pk,**serializer.validated_data)
+
+        data = self.OutputSerializer(products,many=True).data
+        if len(data)>0:
+            return Response(data=data,status=status.HTTP_200_OK)
+        return Response({"detail": "Mahsulotlar mavjud emas!"}, status=status.HTTP_204_NO_CONTENT)
