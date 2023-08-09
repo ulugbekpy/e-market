@@ -14,7 +14,6 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from decimal import Decimal
 from typing import List, Dict, Any
 
 from .models import Product, Cart
